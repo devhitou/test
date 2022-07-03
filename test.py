@@ -1,10 +1,12 @@
+# import
 import random
 import datetime
 import calendar
 import math
 import sys
 import time
-
+import csv
+import pprint
 """ 文字の出力
 print("ハローワールド","野球","サッカー" ,end="ジャンル：スポーツ")
 
@@ -269,7 +271,7 @@ print(sorted(members))
 """
 #################################################################################
 """ タイピングゲーム
-"""
+
 words = ["りんご", "ばなな", "みかん", "ぶどう", "もも", "なし", "めろん", "さくらんぼ", "きうい", "いちご","まぐろ","きつね","まんとひひ","せんぷうき","だいおうぐそくむし",
 "たかあしがに","いるか","しゃち","かつどん","うんち","ほうじちゃくらしっくてぃーらて","すまーとふぉん","ねぎとろどん","どらいやー","よくいにん","ごりら","はさみ","きりん","ねこ","らいおん",
 "えあこん","ぱそこん","あめりか","いんたーねっと","たおる","れいぞうこ","りんがーはっと","やきにく","ふらいぱん","なべ","にほんご","えいご","てーぶる","でーたーべーす","べんきょう",
@@ -331,9 +333,10 @@ print("あなたのスコアは" + str(score) + "点です！")
 print("タイピングレベル：" + rank)
 print("成績詳細\n" + "OK:" + str(ok) + "\nNG:" + str(ng))
 input("\nenterで終了します")
-
+"""
 #################################################################################
 """ 辞書
+
 akihara = {"出席番号":1, "指名":"秋原", "国語":30, "数学":40, "英語":50}
 print(akihara)
 
@@ -361,4 +364,189 @@ print(score)
 print(new_list)
 
 print(sorted(score.items()))
+
+
+for members in score: #イマイ、ウエダ、アキハラ、のキーを取り出して、　menbersに格納
+    print(score[members]) #score[イマイ]みたいな感じで、キーに対応する値ををとりだせる
+
+for (member,score) in score.items():
+    print(member + "君は" + str(score) + "点です")
+
+member_list =["アキハラ","ウエダ","イマイ"]
+
+
+if "イマイ" in member_list:
+    print("イマイが含まれています")
+
+if "ウエダ" in score:
+    print("ウエダが含まれています")
+else:
+    print("ウエダは含まれていない")
+
+
+if "オオニシ" not in score:
+    print("オオニシは含まれていない")
+
+
+scores = {"国語":70,"算数":60,"理科":90}
+del scores["理科"]
+scores ["英語"] = 50
+print(scores)
+
+sum = 0
+average = 0
+for score in scores:
+    sum += scores[score]
+average = int(sum / len(scores))
+
+print(average)
 """
+#################################################################################
+""" 多次元リスト
+piece_a = ["歩兵","香車","桂馬"]
+piece_b = ["飛車","角行"]
+piece_c = ["銀将","金将","王将"]
+piece = [piece_a,piece_b,piece_c]
+print(piece[0][2])
+
+piece.append(["龍王","龍馬"])
+print(piece)
+print(len(piece))
+
+
+piece[1].append("龍王")
+print(piece)
+print(len(piece[1]))
+
+piece[1][0] = ("龍王")
+print(piece)
+
+del piece[0][1]
+print(piece)
+
+
+shogimap =[[1,1,1,1,1,1,1,1,1],
+            [0,1,0,0,0,0,0,1,0],
+            [1,1,1,1,1,1,1,1,1],
+            [0,0,0,0,0,0,0,0,0],
+            [1,1,1,1,1,1,1,1,1],
+            [0,1,0,0,0,0,0,1,0],
+            [1,1,1,1,1,1,1,1,1]]
+
+for line in shogimap:
+
+    for area in line:
+
+        if area == 1:
+            print("@" ,end="")
+        else:
+            print(" ", end="")
+    print()
+
+sample = [i*2 for i in range(5)]
+print(sample)
+
+shogimap2 = [["＋" for i in range(9)] for j in range(9)]
+shogimap2[8][4] = "王"
+shogimap2[8][3] = "金"
+shogimap2[8][5] = "金"
+
+
+for line in shogimap2:
+    
+    for area in line:
+        print(area, end="")        
+    print()
+
+
+for i,line in enumerate(shogimap2):
+
+    for area in line:
+        if i + 1 == 3 or i + 1 == 7:
+            print("歩",end="")
+        else:
+            print(area,end="")
+    print() 
+
+members =[["氏名","国語","算数","英語"],
+            ["秋原",30,40,50],
+            ["今井",60,60,60],
+            ["上田",80,20,40]]
+
+print(members[2][0] + "君の" + members[0][1] + "の点数は" + str(members[2][1]) + "点です")
+
+for i,member in enumerate(members):
+
+    if i != 0:
+        print(str(i) + member[0])
+"""
+#################################################################################
+""" じゃんけんゲーム
+hands =["グー","チョキ","パー"]
+
+result_msg = {"かち":"あなたの勝ちです！おめでとう",
+                "あいこ":"あいこです。むむむ。",
+                "まけ":"あなたの負けです。ドンマイ。"}
+
+judge  = {(0,0):"あいこ",(0,1):"かち",(0,2):"まけ",
+            (1,0):"まけ",(1,1):"あいこ",(1,2):"かち",
+            (2,0):"かち",(2,1):"まけ",(2,2):"あいこ"}
+
+while True :
+    cpu_hand = random.randint(0,2)
+    cpu_hand = 2
+
+    while True:
+        print("出す手を選んでください")
+        player_hand_str = input("0:グー　1:チョキ　2:パー")
+
+        if player_hand_str not in ("0","1","2") :
+            print("0か1か2を入力してください")
+            continue
+
+        else:
+            player_hand_int = int(player_hand_str)
+            break
+
+    print("あなたの手は" + hands[player_hand_int] + "\nCPUの手は" + hands[cpu_hand])
+
+    print(result_msg[judge[player_hand_int,cpu_hand]])
+
+    if player_hand_int == cpu_hand:
+        print("")
+        continue
+    else:
+        break
+"""
+#################################################################################
+"""ファイルの書き込み　読みだし
+
+なぜかコメントしてもエラーになるのでソースを削除
+"""
+#################################################################################
+"""CSVファイルの書き込み_読みだし
+"""
+path = r"C:\Users\itohi\python_lesson\lesson18_1.csv"
+with open(path, newline="", encoding="utf-8") as f :
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)
+
+with open(path,newline="",encoding="utf-8")as f:
+    reader = csv.reader(f)
+    list = [row for row in reader]
+print(list)
+
+path2 = r"C:\Users\itohi\python_lesson\lesson18_2.csv"
+with open(path2,newline="",encoding="utf-8") as f :
+    dict = csv.DictReader(f)
+    list=[row for row in dict]
+
+pprint.pprint(list)
+
+
+for i in list:
+    print("aaaa")
+    if 1 < 2:
+        print("sassssssssssss")
+
